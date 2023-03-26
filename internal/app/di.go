@@ -29,23 +29,22 @@ func (a *App) GetStorage() *image.ImageStorage {
 	return a.storage
 }
 
-func (a *App) setStorage(minioCfg config.MinioConfig) (err error) {
+func (a *App) setStorage(minioCfg config.MinioConfig) error {
 	if a.GetStorage() != nil {
-		err = errStorageAlreadySet
-		return
+		return errStorageAlreadySet
 	}
 
-	storage, err := minio.NewMinioProvider(
-		minioCfg.Url,
-		minioCfg.User, minioCfg.Password,
-		minioCfg.Token, minioCfg.SecretToken, minioCfg.Ssl,
-	)
+	storage, err := minio.NewMinioProvider(minioCfg)
 	if err != nil {
-		return
+		return err
+	}
+
+	if err := storage.Connect(); err != nil {
+		return err
 	}
 
 	a.storage = &storage
-	return
+	return nil
 }
 
 func (a *App) GetS3Server() *grpc.Server {

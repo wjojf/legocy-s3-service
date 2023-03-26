@@ -4,6 +4,7 @@ import (
 	"google.golang.org/grpc"
 	"legocy-minio-storage/internal/config"
 	"legocy-minio-storage/internal/domain/image"
+	"log"
 )
 
 type App struct {
@@ -28,6 +29,11 @@ func NewApp(configFilepath string) *App {
 	err = app.setS3Sever()
 	if err != nil {
 		panic(err)
+	}
+
+	if !app.IsReady() {
+		log.Fatalln("Some dependencies failed to init")
+		return nil
 	}
 
 	return &app

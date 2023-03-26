@@ -3,11 +3,11 @@ package minio
 import (
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
+	"legocy-minio-storage/internal/config"
 	"legocy-minio-storage/internal/domain/image"
 	"log"
 )
 
-// MinioProvider - Наш провайдер для хранилища
 type MinioProvider struct {
 	minioAuthData
 	client *minio.Client
@@ -45,16 +45,16 @@ func (m *MinioProvider) Connect() error {
 	return err
 }
 
-func NewMinioProvider(minioURL string, minioUser, minioPassword, token, secretToken string, ssl bool) (image.ImageStorage, error) {
+func NewMinioProvider(config config.MinioConfig) (image.ImageStorage, error) {
 	//Client will be initialized by Connect() method
 	return &MinioProvider{
 		minioAuthData: minioAuthData{
-			password:    minioPassword,
-			url:         minioURL,
-			user:        minioUser,
-			ssl:         ssl,
-			token:       token,
-			secretToken: secretToken,
+			password:    config.Password,
+			url:         config.Url,
+			user:        config.User,
+			ssl:         config.Ssl,
+			token:       config.Token,
+			secretToken: config.SecretToken,
 		},
 		client: nil,
 	}, nil
