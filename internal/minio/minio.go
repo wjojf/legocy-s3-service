@@ -1,11 +1,11 @@
 package minio
 
 import (
+	"errors"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"legocy-minio-storage/internal/config"
 	"legocy-minio-storage/internal/domain/image"
-	"log"
 )
 
 type MinioProvider struct {
@@ -27,22 +27,25 @@ type minioAuthData struct {
 }
 
 func (m *MinioProvider) Connect() error {
+
 	var err error
 
 	// if already connected - return
 	if m.client != nil {
-		return nil
+		return errors.New("error client not nil")
 	}
 
-	m.client, err = minio.New(m.url, &minio.Options{
-		Creds:  credentials.NewStaticV4(m.token, m.secretToken, ""),
-		Secure: m.ssl,
-	})
+	m.client, err = minio.New(
+		m.url,
+		&minio.Options{
+			Creds:  credentials.NewStaticV4(m.token, m.secretToken, ""),
+			Secure: m.ssl,
+		})
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 
-	return err
+	return nil
 }
 
 func NewMinioProvider(config config.MinioConfig) (image.ImageStorage, error) {

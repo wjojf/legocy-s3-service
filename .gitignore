@@ -21,6 +21,8 @@
 go.work
 
 
+.env*
+
 #idea
 .idea
 

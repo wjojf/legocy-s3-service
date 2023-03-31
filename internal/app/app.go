@@ -9,14 +9,14 @@ import (
 
 type App struct {
 	config  *config.AppConfig
-	storage *image.ImageStorage
+	storage image.ImageStorage
 	server  *grpc.Server
 }
 
 func NewApp(configFilepath string) *App {
 	app := App{}
 
-	// Setup Config
+	// Load Config
 	app.setConfig(configFilepath)
 
 	//Setup Storage
@@ -32,9 +32,9 @@ func NewApp(configFilepath string) *App {
 	}
 
 	if !app.IsReady() {
-		log.Fatalln("Some dependencies failed to init")
-		return nil
+		panic("DI failed")
 	}
 
+	log.Println("App ready")
 	return &app
 }

@@ -2,7 +2,6 @@ package main
 
 import (
 	"legocy-minio-storage/internal/app"
-	"log"
 	"os"
 )
 
@@ -12,6 +11,8 @@ func main() {
 	cwd, _ := os.Getwd()
 	_app := app.NewApp(cwd + configFilepath)
 
-	//TODO:
-	log.Println(_app)
+	_, err := _app.HealthCheck()
+	if err != nil {
+		panic("Healtcheck failed")
+	}
 }

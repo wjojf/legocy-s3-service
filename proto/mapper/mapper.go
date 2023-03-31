@@ -1,4 +1,4 @@
-package delievery
+package mapper
 
 import (
 	"bytes"

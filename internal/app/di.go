@@ -10,7 +10,7 @@ import (
 )
 
 func (a *App) IsReady() bool {
-	return a.GetStorage() != nil && a.setS3Sever() != nil
+	return a.storage.IsReady() && a.GetS3Server() != nil
 }
 
 func (a *App) getConfig() *config.AppConfig {
@@ -25,7 +25,7 @@ func (a *App) setConfig(fp string) {
 	a.config = cfg
 }
 
-func (a *App) GetStorage() *image.ImageStorage {
+func (a *App) GetStorage() image.ImageStorage {
 	return a.storage
 }
 
@@ -43,7 +43,7 @@ func (a *App) setStorage(minioCfg config.MinioConfig) error {
 		return err
 	}
 
-	a.storage = &storage
+	a.storage = storage
 	return nil
 }
 
