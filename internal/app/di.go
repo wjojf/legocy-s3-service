@@ -13,7 +13,7 @@ func (a *App) IsReady() bool {
 	return a.storage.IsReady() && a.GetS3Server() != nil
 }
 
-func (a *App) getConfig() *config.AppConfig {
+func (a *App) getConfig() config.AppConfig {
 	return a.config
 }
 
@@ -22,7 +22,7 @@ func (a *App) setConfig(fp string) {
 	if err != nil {
 		panic(err)
 	}
-	a.config = cfg
+	a.config = *cfg
 }
 
 func (a *App) GetStorage() image.ImageStorage {
@@ -57,6 +57,6 @@ func (a *App) setS3Sever() error {
 	}
 
 	a.server = grpc.NewServer()
-	proto.RegisterS3ServiceServer(a.server, delievery.LegocyS3Server{})
+	proto.RegisterS3ServiceServer(a.server, delievery.NewImageServer(a.GetStorage()))
 	return nil
 }

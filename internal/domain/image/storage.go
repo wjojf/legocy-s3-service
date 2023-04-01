@@ -8,5 +8,5 @@ import (
 type ImageStorage interface {
 	Connect() error
 	IsReady() bool
-	UploadFile(context.Context, models.ImageUnit, string) (string, error)
+	UploadFile(ctx context.Context, image models.ImageUnit, bucketName string) (string, error)
 }

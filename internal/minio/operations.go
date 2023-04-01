@@ -32,7 +32,7 @@ func (m *MinioProvider) UploadFile(ctx context.Context, object models.ImageUnit,
 	)
 
 	log.Println(fmt.Sprintf("Sending Image to Minio: %v", uploadInfo))
-	return object.GetObjectURL(m.url, bucketName, imageName), err
+	return object.GetObjectFilepath(bucketName, imageName), err
 }
 
 func (m *MinioProvider) creatBucketIfPossible(ctx context.Context, bucketName string) error {

@@ -9,10 +9,7 @@ const configFilepath = "/internal/config/json/config.json"
 
 func main() {
 	cwd, _ := os.Getwd()
-	_app := app.NewApp(cwd + configFilepath)
+	_app := app.New(cwd + configFilepath)
 
-	_, err := _app.HealthCheck()
-	if err != nil {
-		panic("Healtcheck failed")
-	}
+	_app.Run()
 }

@@ -26,10 +26,9 @@ func (i ImageUnit) GenerateObjectName() string {
 		"png")
 }
 
-func (i ImageUnit) GetObjectURL(baseUrl, bucketName, filepath string) string {
+func (i ImageUnit) GetObjectFilepath(bucketName, filepath string) string {
 	return fmt.Sprintf(
-		"%s/%s/%s",
-		baseUrl,
+		"%s/%s",
 		bucketName,
 		filepath,
 	)

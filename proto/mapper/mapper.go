@@ -16,10 +16,3 @@ func FromUploadImageRequest(req *proto.UploadImageRequest) *models.ImageUnit {
 	m.PayloadName = m.GenerateObjectName()
 	return m
 }
-
-func ImageUnitToImageResponse(
-	m *models.ImageUnit, baseUrl, bucketName, filename string) *proto.UploadImageResponse {
-	return &proto.UploadImageResponse{
-		ImageURL: m.GetObjectURL(baseUrl, bucketName, filename),
-	}
-}

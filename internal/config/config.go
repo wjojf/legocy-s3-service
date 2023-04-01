@@ -8,6 +8,7 @@ import (
 
 type AppConfig struct {
 	MinioConf MinioConfig `json:"minio"`
+	Port      string      `json:"port"`
 }
 
 type MinioConfig struct {
