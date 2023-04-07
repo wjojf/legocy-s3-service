@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"github.com/minio/minio-go/v7"
 	"legocy-minio-storage/internal/domain/image/models"
+	"legocy-minio-storage/pkg/helpers"
 	"log"
 )
 
 func (m *MinioProvider) UploadFile(ctx context.Context, object models.ImageUnit, bucketName string) (string, error) {
 
-	if !isValidBucketName(bucketName) {
+	if !IsValidBucketName(bucketName) {
 		return "", ErrInvalidBucketName
 	}
 
@@ -52,4 +53,20 @@ func (m *MinioProvider) creatBucketIfPossible(ctx context.Context, bucketName st
 	}
 	log.Println("Successfully created ", bucketName)
 	return nil
+}
+
+func (m *MinioProvider) DownloadFile(ctx context.Context, bucketName string, imageName string) ([]byte, error) {
+	file, err := m.client.GetObject(
+		ctx,
+		bucketName,
+		imageName,
+		minio.GetObjectOptions{},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	defer file.Close()
+
+	return helpers.StreamToByte(file), nil
 }

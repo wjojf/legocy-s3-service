@@ -10,6 +10,8 @@ import (
 func (h ImageServer) UploadImage(
 	ctx context.Context, req *proto.UploadImageRequest) (*proto.UploadImageResponse, error) {
 
+	log.Printf("request %v", req.Meta.BucketName)
+
 	image := *mapper.FromUploadImageRequest(req)
 	log.Println(image.ID)
 
