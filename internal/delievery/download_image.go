@@ -14,6 +14,10 @@ func (h ImageServer) DownloadImage(
 	}
 
 	// TODO:
+	image, err := h.storage.DownloadFile(ctx, req.BucketName, req.ImageName)
+	if err != nil {
+		return nil, err
+	}
 
-	return nil, nil
+	return &proto.DownloadImageResponse{Data: image}, nil
 }

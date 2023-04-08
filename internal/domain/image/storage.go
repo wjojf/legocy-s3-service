@@ -9,5 +9,5 @@ type ImageStorage interface {
 	Connect() error
 	IsReady() bool
 	UploadFile(ctx context.Context, image models.ImageUnit, bucketName string) (string, error)
-	DownloadFile(ctx context.Context, bucketName string, imageName string) (*models.ImageUnit, error)
+	DownloadFile(ctx context.Context, bucketName string, imageName string) ([]byte, error)
 }
